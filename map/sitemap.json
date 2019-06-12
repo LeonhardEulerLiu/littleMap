@@ -1,0 +1,7 @@
+{
+  "desc": "关于本文件的更多信息，请参考文档 https://developers.weixin.qq.com/miniprogram/dev/framework/sitemap.html;天气部分鸣谢https://github.com/tabalt/WeatherHelper",
+  "rules": [{
+  "action": "allow",
+  "page": "*"
+  }]
+}

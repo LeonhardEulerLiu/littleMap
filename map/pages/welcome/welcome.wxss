@@ -1,0 +1,14 @@
+/* pages/welcome/welcome.wxss */
+
+.middle_ {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.whole_ {
+  height: 100%;
+}
+
+.indent_ {
+  text-indent:2em;
+}

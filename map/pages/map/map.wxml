@@ -1,0 +1,32 @@
+<!--pages/map/map.wxml-->
+<cu-custom bgColor="bg-gradual-blue"><view slot="backText">返回</view><view slot="content">地图</view></cu-custom>
+<view>
+  <map id="bigMap" class="fill_" latitude='{{latitude}}' longitude='{{longitude}}' scale="{{scale}}" show-location>
+    <cover-view class="col_">
+      <button class="cu-btn icon margin bg-blue" bindtap="magni"><text class="cuIcon-add"></text></button>
+      <button class="cu-btn icon margin bg-blue" bindtap="reduce"><text class="cuIcon-move"></text></button>
+      <button class="cu-btn icon margin bg-blue" bindtap="backToMe"><text class="cuIcon-homefill"></text></button>
+    </cover-view>
+  </map>
+</view>
+<view class="solids-bottom padding-xs flex align-center sub-foot">
+  <view class="flex-sub">
+    <view class="solid-bottom text-df padding-xs text-lg text-bold">{{location}}</view>
+    <view class="padding-xs">{{lat_direc}}{{lat_abs}}，{{long_direc}}{{long_abs}}</view>
+  </view>
+</view>
+<view class="cu-bar foot tabbar bg-black">
+  <view class="action text-green">
+    <view class="cuIcon-global"></view> 地图
+  </view>
+  <navigator url="/pages/home/home" open-type='redirect'>
+    <view class="action text-gray">
+      <view class="cuIcon-home"></view>
+      我的
+    </view>
+  </navigator>
+  <view class="action text-gray add-action">
+    <button class="cu-btn cuIcon-search bg-green shadow" bindtap="chooseLocation"></button>
+    找位置
+  </view>
+</view>

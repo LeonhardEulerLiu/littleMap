@@ -1,0 +1,11 @@
+<!--pages/routeRes/routeRes.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="true"><view slot="backText">返回</view><view slot="content">查询结果</view></cu-custom>
+<view>
+  <map id="myMap" class="fill_" latitude="{{latitude}}" longitude="{{longitude}}" polyline="{{polyline}}" show-location scale="{{scale}}">
+    <cover-view class="col_">
+      <button class="cu-btn icon margin bg-blue" bindtap="magni"><text class="cuIcon-add"></text></button>
+      <button class="cu-btn icon margin bg-blue" bindtap="reduce"><text class="cuIcon-move"></text></button>
+      <button class="cu-btn icon margin bg-blue" bindtap="getReady"><text class="cuIcon-homefill"></text></button>
+    </cover-view>
+  </map>
+</view>

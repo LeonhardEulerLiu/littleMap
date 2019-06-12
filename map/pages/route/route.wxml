@@ -1,0 +1,59 @@
+<!--pages/route/route.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">我的</view></cu-custom>
+<view class="cu-bar bg-black search">
+  <view class="cu-avatar round" style="background-image:url({{avatar}});"></view>
+  <view class="content">
+    {{nickName}}
+  </view>
+</view>
+<form>
+  <view class="cu-form-group">
+		<view class="title">开始日期</view>
+		<picker mode="date" value="{{startDate}}" start="2000-01-01" end="2100-01-01" bindchange="startDateChange">
+			<view class="picker">
+				{{startDate}}
+			</view>
+		</picker>
+	</view>
+  <view class="cu-form-group">
+		<view class="title">开始时间</view>
+		<picker mode="time" value="{{startTime}}" start="00:00" end="23:59" bindchange="startTimeChange">
+			<view class="picker">
+				{{startTime}}
+			</view>
+		</picker>
+	</view>
+  <view class="cu-form-group">
+		<view class="title">结束日期</view>
+		<picker mode="date" value="{{endDate}}" start="2015-08-01" end="2020-09-01" bindchange="endDateChange">
+			<view class="picker">
+				{{endDate}}
+			</view>
+		</picker>
+	</view>
+  <view class="cu-form-group">
+		<view class="title">结束时间</view>
+		<picker mode="time" value="{{endTime}}" start="08:01" end="21:01" bindchange="endTimeChange">
+			<view class="picker">
+				{{endTime}}
+			</view>
+		</picker>
+	</view>
+</form>
+<view class="padding flex flex-direction">
+  <button class="cu-btn bg-blue lg" bindtap="toNow">将结束时间设为现在</button>
+  <button class="cu-btn bg-red margin-tb-sm lg" bindtap="searchRoute">查询路径</button>
+</view>
+<view class="cu-bar foot tabbar bg-black">
+  <view class="action text-grey" bindtap="gotoMap">
+    <view class="cuIcon-global"></view> 地图
+  </view>
+  <view class="action text-grey" bindtap="gotoHome">
+    <view class="cuIcon-home"></view>
+    我的
+  </view>
+  <view class="action text-gray add-action" bindtap="chooseLocation">
+    <button class="cu-btn cuIcon-search bg-green shadow" bindtap="chooseLocation"></button>
+    找位置
+  </view>
+</view>
