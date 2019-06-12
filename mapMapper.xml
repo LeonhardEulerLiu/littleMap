@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.littleMap.mapMapper">
+	
+	<resultMap type="com.example.littleMap.users" id="userMap">
+		<id column="id" property="id" jdbcType="INTEGER"></id>
+		<result column="nickName" property="nickName" jdbcType="VARCHAR"></result>
+		<result column="avatar" property="avatar" jdbcType="VARCHAR"></result>
+		<result column="type" property="type" jdbcType="INTEGER"></result>
+	</resultMap>
+	<resultMap type="com.example.littleMap.site" id="siteMap">
+		<id column="id" property="id" jdbcType="INTEGER"></id>
+		<result column="userId" property="userId" jdbcType="INTEGER"></result>
+		<result column="time" property="time"></result>
+			<!-- 特别注意：jdbcType不支持DATETIME。但是，如果不手动指定，那么java会自动转换为
+			TIMESTAMP， 且可以用关系运算符比较大小；所以不要指定jdbcType -->
+		<result column="type" property="type" jdbcType="INTEGER"></result>
+		<result column="latitude" property="latitude" jdbcType="DOUBLE"></result>
+		<result column="longitude" property="longitude" jdbcType="DOUBLE"></result>
+		<result column="altitude" property="altitude" jdbcType="DOUBLE"></result>
+		<result column="accuracy" property="accuracy" jdbcType="INTEGER"></result>
+	</resultMap>
+	
+	<select id="selectUserFront" parameterType="java.lang.String" resultMap="userMap">
+		SELECT id, nickName, avatar, type FROM users 
+		WHERE nickName=#{nickName, jdbcType=VARCHAR} AND type=1;
+	</select>
+	<insert id="insertUserFront" parameterType="com.example.littleMap.users">
+		INSERT INTO users(nickName, avatar, type) VALUES
+		(#{nickName, jdbcType=VARCHAR}, #{avatar, jdbcType=VARCHAR}, 1);
+	</insert>
+	<insert id="insertSiteFront" parameterType="com.example.littleMap.site">
+		INSERT INTO site (userId, time, type, latitude, longitude, altitude, accuracy) VALUES 
+		(#{userId, jdbcType=INTEGER}, #{time, jdbcType=TIMESTAMP}, 1, #{latitude, jdbcType=DOUBLE}, 
+		#{longitude, jdbcType=DOUBLE}, #{altitude, jdbcType=DOUBLE}, #{accuracy, jdbcType=INTEGER});
+	</insert>
+	<select id="paintRouteFront" parameterType="com.example.littleMap.routePara" resultMap="siteMap">
+		SELECT id, userId, time, type, latitude, longitude, altitude, accuracy
+		FROM site WHERE type=1
+		AND time BETWEEN #{startTime, jdbcType=VARCHAR} AND #{endTime, jdbcType=VARCHAR}
+		AND userId=#{userId, jdbcType=INTEGER};
+	</select>
+	
+	<insert id="insertUserBack" parameterType="com.example.littleMap.users">
+		INSERT INTO users (id, nickName, avatar, type) VALUES 
+		(#{id, jdbcType=INTEGER}, #{nickName, jdbcType=VARCHAR}, #{avatar, jdbcType=VARCHAR}, 
+		#{type, jdbcType=INTEGER});
+	</insert>
+	<delete id="deleteUserBack" parameterType="java.lang.Integer">
+		UPDATE users SET type=3 WHERE id=#{id, jdbcType=INTEGER};
+	</delete>
+	<select id="updPreUserBack" parameterType="java.lang.Integer" resultMap="userMap">
+		SELECT id, nickName, avatar, type FROM users WHERE id=#{id, jdbcType=INTEGER};
+	</select>
+	<update id="updateUserBack" parameterType="com.example.littleMap.users">
+		UPDATE users
+		SET nickName=#{nickName, jdbcType=VARCHAR}, avatar=#{avatar, jdbcType=VARCHAR}, 
+		type=#{type, jdbcType=INTEGER}
+		WHERE id=#{id, jdbcType=INTEGER};
+	</update>
+	<select id="selectAllUserBack" parameterType="com.example.littleMap.pager" resultMap="userMap">
+		SELECT id, nickName, avatar, type FROM users
+		WHERE type &lt;&gt; 3
+		LIMIT #{start, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER};
+	</select>
+	
+	<insert id="insertSiteBack" parameterType="com.example.littleMap.site">
+		INSERT INTO site (userId, time, type, latitude, longitude, altitude, accuracy)
+		VALUES (#{userId, jdbcType=INTEGER}, #{time, jdbcType=TIMESTAMP}, #{type, jdbcType=INTEGER}, 
+		#{latitude, jdbcType=DOUBLE}, #{longitude, jdbcType=DOUBLE}, #{altitude, jdbcType=DOUBLE}, 
+		#{accuracy, jdbcType=INTEGER});
+	</insert>
+	<delete id="deleteSiteBack" parameterType="java.lang.Integer">
+		UPDATE site SET type=3
+		WHERE id=#{id, jdbcType=INTEGER};
+	</delete>
+	<select id="updPreSiteBack" parameterType="java.lang.Integer" resultMap="siteMap">
+		SELECT id, userId, time, type, latitude, longitude, altitude, accuracy FROM site 
+		WHERE id=#{id, jdbcType=INTEGER};
+	</select>
+	<update id="updateSiteBack" parameterType="com.example.littleMap.site">
+		UPDATE site 
+		SET userId=#{userId, jdbcType=INTEGER}, time=#{time, jdbcType=TIMESTAMP}, 
+		latitude=#{latitude, jdbcType=DOUBLE}, longitude=#{longitude, jdbcType=DOUBLE}, 
+		altitude=#{altitude, jdbcType=DOUBLE}, accuracy=#{accuracy, jdbcType=INTEGER}
+		WHERE id=#{id, jdbcType=INTEGER};
+	</update>
+	<select id="selectAllSiteBack" parameterType="com.example.littleMap.pager" resultMap="siteMap">
+		SELECT id, userId, time, type, latitude, longitude, altitude, accuracy
+		FROM site WHERE type &lt;&gt; 3
+		LIMIT #{start, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER};
+	</select>
+</mapper>

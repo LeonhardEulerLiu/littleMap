@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head th:replace="/timoTool :: header(~{::title},~{::link},~{::style})">
+    <title>TIMO登录</title>
+</head>
+<body class="layui-layout-login">
+<div class="login-bg">
+    <div class="cover"></div>
+</div>
+<div class="login-content" th:th:classappend="${isCaptcha} ? 'captcha'">
+    <h1 class="login-box-title"><i class="fa fa-fw fa-user"></i>登录</h1>
+    <form class="layui-form" onsubmit="return false">
+        <div class="layui-form-item">
+            <label class="layui-icon layui-icon-username" for="username"></label>
+            <input class="layui-input" type="text" name="username" id="username" placeholder="用户名">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-icon layui-icon-password" for="password"></label>
+            <input class="layui-input" type="password" name="password" id="password" placeholder="密码">
+        </div>
+        <div class="layui-form-item">
+            <input type="checkbox" name="rememberMe" title="记住我" lay-skin="primary">
+            <a class="layui-layout-right forget-password" href="javascript:alert('请联系超级管理员！')">忘记密码?</a>
+        </div>
+        <button type="submit" class="layui-btn layui-btn-fluid ajax-login" onclick="f1()"><i class="fa fa-sign-in fa-lg fa-fw"></i> 登录</button>
+    </form>
+</div>
+<script th:replace="/timoTool :: script"></script>
+<script th:src="@{/scripts/js/timoLogin.js}" charset="utf-8"></script>
+<script type="text/javascript">
+function f1(){
+	console.log("!");
+	var user= document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+	if(user == "admin" && password == "123456"){
+		alert("ok.");
+		window.location.href="http://localhost:8080/map/backpage/selectUserPage";
+		window.event.returnValue=false;
+	}
+	else{
+		alert("no.");
+	}
+	//alert("user:"+user+" passwd:"+password);
+}
+</script>
+</body>
+</html>
+

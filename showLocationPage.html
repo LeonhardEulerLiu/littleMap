@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>地点显示</title>
+  <link rel="stylesheet" href="http://localhost:8080/layui/css/layui.css">
+  <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"></script>
+	<style type="text/css">
+	*{
+	    margin:0px;
+	    padding:0px;
+	}
+	body, button, input, select, textarea {
+	    font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+	}
+	#info{
+	    width:603px;
+	    padding-top:3px;
+	    overflow:hidden;
+	}
+	.btn{
+	    width:112px;
+	}
+	#container{
+		min-width:600px;
+		min-height:767px;
+	}
+	</style>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">Little Map</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+         <img src="http://t.cn/RCzsdCq" class="layui-nav-img">贤心
+      </li>
+      <li class="layui-nav-item"><a href="http://localhost:8080/map/backpage/login">退了</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">查看</a>
+          <dl class="layui-nav-child">
+            <dd><a href="/map/backpage/selectUserPage">用户</a></dd>
+            <dd><a href="/map/backpage/selectSitePage">地点</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+		<blockquote class="layui-elem-quote layui-text" id="introduction">
+		  提示文字
+		</blockquote>
+		
+		<!-- 此处是表单form -->
+		<div id="container"></div>
+	</div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+  </div>
+</div>
+<script src="http://localhost:8080/layui/layui.all.js"></script>
+<script src="http://localhost:8080/scripts/js/frame.js"></script>
+<script>
+//JavaScript代码区域
+!function(){
+  var element = layui.element;
+  var form = layui.form, layer = layui.layer, 
+  layedit = layui.layedit, laydate = layui.laydate;
+  var $ = layui.$;
+  
+  //日期
+  laydate.render({ 
+  	elem: '#time',
+  	type: 'datetime'
+  });
+  
+  //输入约束
+  form.verify({
+    numeric: function(value){
+    	if(!/^[\+-]?[0-9]+[\.]?[0-9]*$/.test(value)){
+    		return '请在 经度/纬度/高度 空中输入实数';
+    	}
+    },
+  	integral: function(value){
+  		if(!/^[\+-]?[0-9]+$/.test(value)){
+  			return '请在 id/userId/类型/精确度 空中输入整数';
+  		}
+  	},
+  	longer: function(value){
+  		if(value.length <= 0){
+  			return '请在 时间/昵称/头像 空中输入内容';
+  		}
+  	}
+  });
+  
+  //监听提交
+  form.on('submit(exam)', function(data){
+    //layer.alert(JSON.stringify(data.field), {
+    //  title: '最终的提交信息'
+    //})
+    updateSiteSup();
+    return false;
+  });
+ 
+  //$("#id").html(getUrlParam("id"));
+  var lat = getUrlParam("latitude"), longi = getUrlParam("longitude"), id = getUrlParam("id");
+  $("#introduction").text("下面是ID="+id+"，经度="+lat+"，纬度="+longi+"的地点位置示意。");
+  var center = new qq.maps.LatLng(lat,longi);
+  var map = new qq.maps.Map(document.getElementById('container'),{
+      center: center,
+      zoom: 18
+  });
+  //创建marker
+  var marker = new qq.maps.Marker({
+      position: center,
+      map: map
+  });
+}();
+
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+}
+</script>
+</body>
+</html>

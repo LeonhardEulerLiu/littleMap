@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>地点添加</title>
+  <link rel="stylesheet" href="http://localhost:8080/layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">Little Map</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+         <img src="http://t.cn/RCzsdCq" class="layui-nav-img">贤心
+      </li>
+      <li class="layui-nav-item"><a href="http://localhost:8080/map/backpage/login">退了</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">查看</a>
+          <dl class="layui-nav-child">
+            <dd><a href="/map/backpage/selectUserPage">用户</a></dd>
+            <dd><a href="/map/backpage/selectSitePage">地点</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+		<blockquote class="layui-elem-quote layui-text">
+		  请在下面的页面中编辑你想要添加的地点。
+		</blockquote>
+		              
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+		  <legend>地点表单</legend>
+		</fieldset>
+		
+		<!-- 此处是表单form -->
+		<form class="layui-form" action="" lay-filter="example">
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户ID</label>
+				<div class="layui-input-block">
+					<input type="text" name="userId" id="userId" lay-verify="integral" autocomplete="off" placeholder="请输入用户IDuserId" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+      			<label class="layui-form-label">时间</label>
+      			<div class="layui-input-inline">
+        			<input type="text" name="time" id="time" class="layui-input" placeholder="请输入时间time：yyyy-MM-dd HH:mm:ss" lay-verify="longer" autocomplete="off">
+      			</div>
+    		</div>
+    		<div class="layui-form-item">
+				<label class="layui-form-label">类型</label>
+				<div class="layui-input-block">
+					<input type="text" name="type" id="type" lay-verify="integral" autocomplete="off" placeholder="请输入类型type" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">纬度</label>
+				<div class="layui-input-block">
+					<input type="text" name="latitude" id="latitude" lay-verify="numeric" autocomplete="off" placeholder="请输入纬度latitude" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">经度</label>
+				<div class="layui-input-block">
+					<input type="text" name="longitude" id="longitude" lay-verify="numeric" autocomplete="off" placeholder="请输入经度longitude" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">高度</label>
+				<div class="layui-input-block">
+					<input type="text" name="altitude" id="altitude" lay-verify="numeric" autocomplete="off" placeholder="请输入高度altitude" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">精度</label>
+				<div class="layui-input-block">
+					<input type="text" name="accuracy" id="accuracy" lay-verify="integral" autocomplete="off" placeholder="请输入精度accuracy" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+    			<div class="layui-input-block">
+      				<button class="layui-btn" lay-submit="" lay-filter="exam">立即提交</button>
+      				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    			</div>
+  			</div>
+		</form>
+	</div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+  </div>
+</div>
+<script src="http://localhost:8080/layui/layui.all.js"></script>
+<script src="http://localhost:8080/scripts/js/frame.js"></script>
+<script>
+//JavaScript代码区域
+!function(){
+  var element = layui.element;
+  var form = layui.form, layer = layui.layer, 
+  layedit = layui.layedit, laydate = layui.laydate;
+  
+  //日期
+  laydate.render({ 
+  	elem: '#time',
+  	type: 'datetime'
+  });
+  
+  //输入约束
+  form.verify({
+    numeric: function(value){
+    	if(!/^[\+-]?[0-9]+[\.]?[0-9]*$/.test(value)){
+    		return '请在 经度/纬度/高度 空中输入实数';
+    	}
+    },
+  	integral: function(value){
+  		if(!/^[\+-]?[0-9]+$/.test(value)){
+  			return '请在 id/userId/类型/精确度 空中输入整数';
+  		}
+  	},
+  	longer: function(value){
+  		if(value.length <= 0){
+  			return '请在 时间/昵称/头像 空中输入内容';
+  		}
+  	}
+  });
+  
+  //监听提交
+  form.on('submit(exam)', function(data){
+    //layer.alert(JSON.stringify(data.field), {
+    //  title: '最终的提交信息'
+    //})
+    insertSiteSup();
+    return false;
+  });
+ 
+  //表单初始赋值
+  form.val('example', {
+    "userId": "",
+    "time": "",
+    "type": "",
+    "latitude": "",
+    "longitude": "",
+    "altitude": "",
+    "accuracy": ""
+  });
+}();
+
+function insertSiteSup(){
+	var $ = layui.$;
+	$.ajax({
+		url: '/map/back/addSite',
+		type: 'post',
+		contentType: "application/json;charset=utf-8",
+		data: JSON.stringify(
+			{
+				id: null,
+				userId: $('#userId').val(),
+				time: $('#time').val(),
+				type: $('#type').val(),
+				latitude: $('#latitude').val(),
+				longitude: $('#longitude').val(),
+				altitude: $('#altitude').val(),
+				accuracy: $('#accuracy').val()
+			}	
+		),
+		error: function(data) {
+			alert('insertSite请求失败');
+		},
+		success: function(data) {
+			alert('insertSite请求成功');
+		}
+	});
+};
+</script>
+</body>
+</html>
